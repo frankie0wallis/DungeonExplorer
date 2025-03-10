@@ -27,6 +27,24 @@ namespace DungeonExplorer
             Inventory.Add(weapon);
             Console.WriteLine($"You found an item: {weapon.Name} (Attack Power: {weapon.AttackPower})");
         }
+        public void PickUpItem(Item item)
+        {
+            Items.Add(item);
+            Console.WriteLine($"You found an item: {item.Name} (Heals: {item.HealingAmount})");
+        }
+        public void UseItem()
+        {
+            if (Items.Count > 0) 
+            {
+                Item item = Items[0];
+                Health += item.HealingAmount;
+                Items.RemoveAt(0);
+                Console.WriteLine($"You used {item.Name} and healed {item.HealingAmount} health! Health: {Health}");   
+            }
+            else
+            {
+                Console.WriteLine("You have no items to use.");
+            }
 
         public string ShowInventory()
         {
