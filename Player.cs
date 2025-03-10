@@ -9,6 +9,18 @@ namespace DungeonExplorer
         public int Health { get; private set; } = 100;
         public List<Weapon> Inventory { get; private set; } = new List<Weapon>();
         public List<Item> Items { get; private set; } = new List<Item>();
+        public Armour EquippedArmour { get; private set; }
+
+        public void EquipArmour(Armour armour)
+        {
+            EquippedArmour = armour;
+            Console.WriteLine($"You equipped {armour.Name} (Defence: {armour.Defence})");
+        }
+        public void TakeDamage(int damage)
+        {
+            int reducedDamage = EquippedArmour != null ? Math.Max(0, damage - EquippedArmour.Defence) : damage;
+            Console.WriteLine($"You took {reducedDamage} damage! Health: {Health}");
+        }
 
         public void PickUpWeapon(Weapon weapon)
         {
@@ -21,8 +33,8 @@ namespace DungeonExplorer
             Console.WriteLine("Inventory:");
             foreach (var weapon in Inventory)
                 Console.WriteLine($"- {weapon.Name} (Attack: {weapon.AttackPower})");
-            foreach (var potion in Item)
-                Console.WriteLine($"- {potion.Name} (Heals: {potion.HealingAmount})");
+            foreach (var item in Items)
+                Console.WriteLine($"- {item.Name} (Heals: {item.HealingAmount})");
             if (EquippedArmour != null)
                 Console.WriteLine($"- Equipped Armour: {EquippedArmour}");
         }
