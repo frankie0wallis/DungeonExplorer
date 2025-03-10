@@ -31,15 +31,9 @@ namespace DungeonExplorer
             Health = health;
             Attack = attack;
         }
-        public void AttackPlayer(Player player)
+        public static Monster GetRandomMonster()
         {
-            int damage = Attack - player.Defence;
-            if (damage < 0)
-            {
-                damage = 0;
-            }
-            player.Health -= damage;
-            Console.WriteLine(Name + " attacked you for " + damage + " damage!");
+            return possibleMonsters[random.Next(possibleMonsters.Count)];
         }
     }
 }
