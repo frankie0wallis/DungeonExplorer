@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DungeonExplorer
 {
-    class Armour
+    public class Armour
     {
         public string Name { get; set; }
         public int Defence { get; set; }

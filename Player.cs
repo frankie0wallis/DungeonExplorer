@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 
 namespace DungeonExplorer
 {
@@ -34,19 +35,26 @@ namespace DungeonExplorer
         }
         public void UseItem()
         {
-            if (Items.Count > 0) 
+            if (Items.Count > 0)
             {
                 Item item = Items[0];
                 Health += item.HealingAmount;
                 Items.RemoveAt(0);
-                Console.WriteLine($"You used {item.Name} and healed {item.HealingAmount} health! Health: {Health}");   
+                Console.WriteLine($"You used {item.Name} and healed {item.HealingAmount} health! Health: {Health}");
             }
             else
             {
                 Console.WriteLine("You have no items to use.");
             }
-
-        public string ShowInventory()
+        }
+        public Weapon GetBestWeapon()
+        {
+            Weapon bestWeapon = null;
+            if (Inventory.Count == 0) return new Weapon("Fists", 5);
+            Inventory.Sort((a, b) => b.AttackPower.CompareTo(a.AttackPower));
+            return Inventory[0];
+        }
+        public void ShowInventory()
         {
             Console.WriteLine("Inventory:");
             foreach (var weapon in Inventory)
