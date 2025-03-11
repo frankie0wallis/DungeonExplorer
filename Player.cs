@@ -19,8 +19,18 @@ namespace DungeonExplorer
         }
         public void TakeDamage(int damage)
         {
-            int reducedDamage = EquippedArmour != null ? Math.Max(0, damage - EquippedArmour.Defence) : damage;
-            Console.WriteLine($"You took {reducedDamage} damage! Health: {Health}");
+            if (EquippedArmour == null)
+            {
+                Health -= damage;
+                Console.WriteLine($"You took {damage} damage! Health: {Health}");
+                return;
+            }
+            else if (EquippedArmour != null)
+            {
+                int ReducedDamage = damage - EquippedArmour.Defence;
+                Health -= ReducedDamage;
+                Console.WriteLine($"You took {ReducedDamage} damage! Health: {Health}");
+            }
         }
 
         public void PickUpWeapon(Weapon weapon)
@@ -46,6 +56,13 @@ namespace DungeonExplorer
             {
                 Console.WriteLine("You have no items to use.");
             }
+        }
+        public Armour GetBestArmour()
+        {
+            Armour bestArmour = null;
+            if (EquippedArmour == null) return new Armour("None", 0);
+            if (EquippedArmour.Defence > bestArmour.Defence) bestArmour = EquippedArmour;
+            return bestArmour;
         }
         public Weapon GetBestWeapon()
         {

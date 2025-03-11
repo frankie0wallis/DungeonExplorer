@@ -30,7 +30,11 @@ namespace DungeonExplorer
 
         public void Enter(Player player)
         {
-            int eventRoll = random.Next(1, 5);
+            int eventRoll = random.Next(1, 10);
+            if (eventRoll > 4)
+            {
+                eventRoll = 1;
+            }
             switch (eventRoll)
             {
                 case 1:
@@ -50,6 +54,7 @@ namespace DungeonExplorer
                     Console.WriteLine("You Found An Item!.");
                     player.PickUpItem(Item.GetRandomItem());
                     break;
+
             }
         }
         public static Room GetRandomRoom()

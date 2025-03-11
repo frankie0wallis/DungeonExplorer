@@ -32,28 +32,25 @@ namespace DungeonExplorer
 
                 Console.WriteLine("(i) Check Inventory, (p) Use Item, (c) Continue, (e) Exit Dungeon ");
                 string input = Console.ReadLine()?.ToLower();
-                while (input != "e")
+                
+                
+                if (input == "i")
                 {
-                    while (input != "e" && input != "c" && input != "i" && input != "p")
-                    {
-                        Console.WriteLine("Invalid action! (i) Check Inventory, (p) Use Item, (c) Continue, (e) Exit Dungeon ");
-                        input = Console.ReadLine()?.ToLower();
-                        if (input == "i")
-                        {
-                            player.ShowInventory();
+                    player.ShowInventory();
 
-                        }
-                        else if (input == "p")
-                        {
-                            player.UseItem();
-                        }
-                        else if (input == "e")
-                        {
-                            Console.WriteLine("You exit the dungeon.");
-                            break;
-                        }
-                    }
                 }
+                else if (input == "p")
+                {
+                    player.UseItem();
+                }
+                else if (input == "e")
+                {
+                    Console.WriteLine("You exit the dungeon.");
+                    break;
+                }
+                    
+             
+               
             }
         }
     }
