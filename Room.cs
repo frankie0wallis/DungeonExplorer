@@ -51,6 +51,7 @@ namespace DungeonExplorer
                     player.PickUpItem(Item.GetRandomItem());
                     break;
             }
+        }
         public static Room GetRandomRoom()
         {
             return new Room();

@@ -46,6 +46,13 @@ namespace DungeonExplorer
                 {
                     Console.WriteLine("Invalid action!");
                 }
+
+                player.TakeDamage(monster.Attack);
+                if (player.Health <= 0)
+                {
+                    Console.WriteLine($"The {monster.Name} has bested you... ");
+                    return;
+                }
             }
         }
     }
