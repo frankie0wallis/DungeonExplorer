@@ -22,7 +22,7 @@ namespace DungeonExplorer
                 {
                     Weapon weapon = player.GetBestWeapon();
                     monster.Health -= weapon.AttackPower;
-                    int displayedHealth = Math.Max(0, monster.Health);
+                    int displayedHealth = Math.Max(0, monster.Health); // Ensure health doesn't go negative
                     Console.WriteLine($"You attacked the {monster.Name} with {weapon.Name} for {weapon.AttackPower} damage! It has {displayedHealth} health left!");
 
                     if (monster.Health <= 0)
@@ -46,10 +46,10 @@ namespace DungeonExplorer
                 }
                 else
                 {
-                    Console.WriteLine("Invalid action!");
+                    Console.WriteLine("Invalid action!"); // Invalid input handling
                 }
 
-                int reducedDamage = Math.Max(0, monster.Attack - player.GetTotalDefence());
+                int reducedDamage = Math.Max(0, monster.Attack - player.GetTotalDefence()); // Calculate reduced damage ensuring it doesn't go below 0
                 player.TakeDamage(reducedDamage);
                 Console.WriteLine($"The {monster.Name} attacks you for {reducedDamage} damage!");
             }

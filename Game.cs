@@ -12,8 +12,9 @@ namespace DungeonExplorer
         {
             Console.WriteLine("Welcome to Dungeon Explorer!");
             player = new Player();
-            Play();
+            Play(); // Starts the main game loop
         }
+        // Main game loop where the player explores rooms
         public void Play()
         {
             while (player.Health > 0)
@@ -34,14 +35,14 @@ namespace DungeonExplorer
                 string input;
                 do
                 {
-                    input = Console.ReadLine()?.ToLower();
-                    if (input != "y" && input != "n")
+                    input = Console.ReadLine()?.ToLower(); // Get user input
+                    if (input != "y" && input != "n") // Validate input
                     {
                         Console.WriteLine("Invalid input. Please enter 'y' to continue or 'n' to exit.");
                     }
                 } while (input != "y" && input != "n");
 
-                if (input == "n")
+                if (input == "n") // Exit the game if player chooses not to continue
                 {
                     Console.WriteLine("Thanks for playing!");
                     break;

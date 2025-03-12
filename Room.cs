@@ -6,8 +6,8 @@ namespace DungeonExplorer
 {
     public class Room
     {
-        private string description;
-        private static Random random = new Random();
+        private string description; // Stores the description of the room
+        private static Random random = new Random(); // Random number generator
         private static List<string> roomDescriptions = new List<string>
         {
             ("A dimly lit chamber with torches flickering on the walls"),
@@ -17,8 +17,8 @@ namespace DungeonExplorer
             ("A mysterious library filled with ancient tomes and glowing runes on the floor."),
             ("An empty room with an unsettling lack of danger."),
         };
-
-        public Room()
+        
+        public Room() // Constructor that assigns a random description to the room
         {
             description = roomDescriptions[random.Next(roomDescriptions.Count)];
         }
@@ -28,10 +28,10 @@ namespace DungeonExplorer
             return description;
         }
 
-        public void Enter(Player player)
+        public void Enter(Player player) // Handles events that occur when the player enters the room
         {
             int eventRoll = random.Next(1, 10);
-            if (eventRoll > 4)
+            if (eventRoll > 4) // Most of the time, default to event 1
             {
                 eventRoll = 1;
             }
@@ -57,7 +57,7 @@ namespace DungeonExplorer
 
             }
         }
-        public static Room GetRandomRoom()
+        public static Room GetRandomRoom() // Returns a new instance of a randomly generated room
         {
             return new Room();
         }

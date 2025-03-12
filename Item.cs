@@ -10,7 +10,7 @@ namespace DungeonExplorer
     {
         public string Name { get; set; }
         public int HealingAmount { get; set; }
-        private static Random random = new Random();
+        private static Random random = new Random(); // Random generator for selecting random items
 
         private static List<Item> possibleitems = new List<Item>
         {
@@ -21,13 +21,13 @@ namespace DungeonExplorer
             new Item("Revive Scroll", 100),
         };
 
-        public Item(string name, int healingamount)
+        public Item(string name, int healingamount) // Constructor to initialize an item with a name and healing amount
         {
             Name = name;
             HealingAmount = healingamount;
         }
 
-        public static Item GetRandomItem()
+        public static Item GetRandomItem()// Returns a random item from the list of possible items
         {
             return possibleitems[random.Next(possibleitems.Count)];
         }

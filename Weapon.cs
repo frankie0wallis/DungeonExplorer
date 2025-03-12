@@ -7,13 +7,13 @@ namespace DungeonExplorer
     {
         public string Name { get; private set; }
         public int AttackPower { get; private set; }
-        private static Random random = new Random();
-        public Weapon(string name, int attackpower)
+        private static Random random = new Random(); // Random generator for selecting random weapons
+        public Weapon(string name, int attackpower) // Constructor to initialize a weapon with a name and attack power
         {
             Name = name;
             AttackPower = attackpower;
         }
-        private static List<Weapon> possibleItems = new List<Weapon>
+        private static List<Weapon> possibleItems = new List<Weapon> // List of possible weapons with different attack values
         {
             new Weapon("Sword", 15),
             new Weapon("Axe", 15),
@@ -32,7 +32,7 @@ namespace DungeonExplorer
             new Weapon("Kunai", 10),
             new Weapon("Trident of Poseidon", 75),
         };
-        public static Weapon GetRandomWeapon()
+        public static Weapon GetRandomWeapon() // Returns a random weapon from the list of possible weapons
         {
             return possibleItems[random.Next(possibleItems.Count)];
         }

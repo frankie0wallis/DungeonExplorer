@@ -10,9 +10,9 @@ namespace DungeonExplorer
     {
         public string Name { get; set; }
         public int Defence { get; set; }
-        private static Random random = new Random();
+        private static Random random = new Random(); // Random generator for selecting random armour
 
-        private static List<Armour> possibleArmours = new List<Armour>
+        private static List<Armour> possibleArmours = new List<Armour> // List of possible armour pieces with different defence values
         {
             new Armour("Leather Armour", 5),
             new Armour("Chainmail Armour", 10),
@@ -24,16 +24,16 @@ namespace DungeonExplorer
             new Armour("Dragon Armour", 40),
             new Armour("God Armour", 50),
         };
-        public Armour(string name, int defence)
+        public Armour(string name, int defence) // Constructor to initialize an armour piece with a name and defence value
         {
             Name = name;
             Defence = defence;
         }
-        public static Armour GetRandomArmour()
+        public static Armour GetRandomArmour() // Returns a random armour piece from the list of possible armours
         {
             return possibleArmours[random.Next(possibleArmours.Count)];
         }
-        public override string ToString()
+        public override string ToString() // Override ToString method to display armour name and defence value
         {
             return Name + " (Defence: " + Defence + ")";
         }
