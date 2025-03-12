@@ -6,7 +6,6 @@ namespace DungeonExplorer
 {
     public class Player
     {
-        public string Name { get; private set; }
         public int Health { get; private set; } = 100;
         public List<Weapon> Inventory { get; private set; } = new List<Weapon>();
         public List<Item> Items { get; private set; } = new List<Item>();
@@ -28,9 +27,14 @@ namespace DungeonExplorer
             else if (EquippedArmour != null)
             {
                 int ReducedDamage = damage - EquippedArmour.Defence;
+                if (ReducedDamage < 0) ReducedDamage = 0;
                 Health -= ReducedDamage;
                 Console.WriteLine($"You took {ReducedDamage} damage! Health: {Health}");
             }
+        }
+        public int GetTotalDefence()
+        {
+            return EquippedArmour != null ? EquippedArmour.Defence : 0;
         }
 
         public void PickUpWeapon(Weapon weapon)

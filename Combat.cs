@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DungeonExplorer
 {
@@ -21,7 +22,8 @@ namespace DungeonExplorer
                 {
                     Weapon weapon = player.GetBestWeapon();
                     monster.Health -= weapon.AttackPower;
-                    Console.WriteLine($"You attacked the {monster.Name} with {weapon.Name} for {weapon.AttackPower} damage! It has {monster.Health} health left!");
+                    int displayedHealth = Math.Max(0, monster.Health);
+                    Console.WriteLine($"You attacked the {monster.Name} with {weapon.Name} for {weapon.AttackPower} damage! It has {displayedHealth} health left!");
 
                     if (monster.Health <= 0)
                     {
@@ -47,12 +49,9 @@ namespace DungeonExplorer
                     Console.WriteLine("Invalid action!");
                 }
 
-                player.TakeDamage(monster.Attack);
-                if (player.Health <= 0)
-                {
-                    Console.WriteLine($"The {monster.Name} has bested you... ");
-                    return;
-                }
+                int reducedDamage = Math.Max(0, monster.Attack - player.GetTotalDefence());
+                player.TakeDamage(reducedDamage);
+                Console.WriteLine($"The {monster.Name} attacks you for {reducedDamage} damage!");
             }
         }
     }
