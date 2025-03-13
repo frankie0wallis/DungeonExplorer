@@ -38,6 +38,8 @@ namespace DungeonExplorer
             switch (eventRoll)
             {
                 case 1:
+                    Console.WriteLine("You Found A Weapon!");
+                    player.PickUpWeapon(Weapon.GetRandomWeapon());
                     Console.WriteLine("A Monster Attacks You!");
                     Monster monster = Monster.GetRandomMonster();
                     Combat.Fight(player, monster);
