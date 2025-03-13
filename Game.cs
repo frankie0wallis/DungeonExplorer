@@ -36,6 +36,7 @@ namespace DungeonExplorer
                 do
                 {
                     input = Console.ReadLine()?.ToLower(); // Get user input
+                    DebugHelper.Assert(input != null, "User input is null in Game.Play");
                     if (input != "y" && input != "n") // Validate input
                     {
                         Console.WriteLine("Invalid input. Please enter 'y' to continue or 'n' to exit.");
