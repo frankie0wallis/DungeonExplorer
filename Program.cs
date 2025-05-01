@@ -8,6 +8,7 @@ namespace DungeonExplorer
 {
     internal class Program
     {
+        // Ensure only one entry point exists
         static void Main()
         {
             Game.Instance.Start();

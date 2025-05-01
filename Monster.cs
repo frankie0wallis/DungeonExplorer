@@ -57,5 +57,20 @@ namespace DungeonExplorer
             target.TakeDamage(AttackPower); // Apply damage to the target
         }
     }
+    public class Mage : Monster
+    {
+        public Mage()
+        {
+            Name = "Mage";
+            Health = 30;
+            AttackPower = 10;
+        }
+
+        public override void Attack(Creature target)
+        {
+            Console.WriteLine("The mage casts a fireball!");
+            target.TakeDamage(AttackPower + 5); // Bonus magic damage
+        }
+    }
 }
 

@@ -207,7 +207,7 @@ namespace DungeonExplorer
             Console.WriteLine("========== HELP MENU ==========");
             Console.WriteLine("Move:         north | south | east | west");
             Console.WriteLine("Inventory:    inventory");
-            Console.WriteLine("Use Item:     use [item name]");
+            Console.WriteLine("Use/Equip Item:     use [item name]");
             Console.WriteLine("Show Help:    help");
             Console.WriteLine("================================");
         }
