@@ -11,7 +11,7 @@ namespace DungeonExplorer
         {
             var weapon = Inventory.GetEquippedWeapon(); // Get the equipped weapon from the inventory
             int damage = weapon != null ? weapon.AttackPower : 5; // Calculate damage based on the weapon's attack power
-            Console.WriteLine("You attack" + target.Name + "for" + damage + "damage!"); // Display attack message
+            Console.WriteLine("You attack " + target.Name + " for " + damage + " damage!"); // Display attack message
             target.TakeDamage(damage); // Apply damage to the target
         }
 

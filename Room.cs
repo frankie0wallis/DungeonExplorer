@@ -25,11 +25,15 @@ namespace DungeonExplorer
             {
                 if (Monsters.Count > 0)
                 {
-                    Console.WriteLine("Monsters appear!");
+                    foreach (var monster in Monsters)
+                    {
+                        Console.WriteLine($"A {monster.Name} appears! (Health: {monster.Health}, Attack: {monster.AttackPower})");
+                    }
                     foreach (var monster in Monsters.ToList())
                     {
                         while (monster.Health > 0 && player.Health > 0)
                         {
+
                             Console.WriteLine("What do you do? (attack / run)");
                             var input = Console.ReadLine().ToLower();
                             if (input == "attack")
