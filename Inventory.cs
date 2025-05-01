@@ -45,6 +45,10 @@ namespace DungeonExplorer
                 Console.WriteLine("Item not found in inventory.");
             }
         }
+        public int GetTotalWeaponAttack()
+        {
+            return equippedWeapon != null ? equippedWeapon.AttackPower : 0;
+        }
 
         public void ListItems()
         {

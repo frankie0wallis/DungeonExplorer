@@ -14,9 +14,41 @@ namespace DungeonExplorer
 
         public void Start()
         {
-            Player = new Player();
-            Player.Name = "Hero";
-            Player.Health = 100;
+            Console.WriteLine("Welcome to Dungeon Explorer!");
+            Console.Write("Enter your character's name: ");
+            string name = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                name = "Hero";
+            }
+
+            Console.WriteLine("Choose your class:");
+            Console.WriteLine("1. Warrior (more health, stronger attacks)");
+            Console.WriteLine("2. Rogue (more speed, better dodge chance)");
+            Console.Write("Enter class (warrior/rogue): ");
+            string playerClass = Console.ReadLine()?.ToLower();
+
+            if (playerClass == "warrior")
+            {
+                Player = new Player
+                {
+                    Name = name,
+                    Health = 120,
+                    BaseAttackPower = 15,
+                    DodgeChance = 0.1
+                };
+            }
+            else
+            {
+                Player = new Player
+                {
+                    Name = name,
+                    Health = 100,
+                    BaseAttackPower = 10,
+                    DodgeChance = 0.3
+                };
+            }
+
             Map = new GameMap();
 
             var r1 = new Room();
@@ -50,7 +82,7 @@ namespace DungeonExplorer
             r4.Items.AddRange(GenerateRandomItems());
 
             Map.SetStart(r1);
-            Map.CurrentRoom.Enter(Player);
+            EnterRoomWithCombat(Map.CurrentRoom);
             ShowHelp();
 
             while (Player.Health > 0)
@@ -71,13 +103,14 @@ namespace DungeonExplorer
                         Player.Inventory.ListItems();
                         continue;
                     }
-
                     else if (input == "north" || input == "south" || input == "east" || input == "west")
                     {
-                        Map.Move(input);
+                        if (Map.Move(input))
+                        {
+                            EnterRoomWithCombat(Map.CurrentRoom);
+                        }
                         continue;
                     }
-
                     else if (input.StartsWith("use "))
                     {
                         string itemName = input.Substring(4).Trim();
@@ -87,14 +120,56 @@ namespace DungeonExplorer
                         }
                         continue;
                     }
-
                 }
             }
             Console.WriteLine("Game Over!"); // Game over message
         }
-        
-            
-        private List <Monster> GenerateRandomMonsters()
+
+        private void EnterRoomWithCombat(Room room)
+        {
+            room.Enter(Player);
+            foreach (var monster in room.Monsters.ToList())
+            {
+                Console.WriteLine($"A wild {monster.Name} appears! HP: {monster.Health}, Attack: {monster.AttackPower}");
+                while (monster.Health > 0 && Player.Health > 0)
+                {
+                    Console.WriteLine("Choose action: (attack/run)");
+                    var action = Console.ReadLine()?.ToLower();
+
+                    if (action == "run")
+                    {
+                        Console.WriteLine("You fled from battle!");
+                        return;
+                    }
+                    else if (action == "attack")
+                    {
+                        int weaponAttack = Player.Inventory.GetTotalWeaponAttack();
+                        int totalAttack = Player.BaseAttackPower + weaponAttack;
+                        monster.Health -= totalAttack;
+                        Console.WriteLine($"You hit the {monster.Name} for {totalAttack} damage. Monster HP: {monster.Health}");
+
+                        if (monster.Health <= 0)
+                        {
+                            Console.WriteLine($"You defeated the {monster.Name}!");
+                            room.Monsters.Remove(monster);
+                            break;
+                        }
+
+                        if (random.NextDouble() > Player.DodgeChance)
+                        {
+                            Player.Health -= monster.AttackPower;
+                            Console.WriteLine($"The {monster.Name} hits you for {monster.AttackPower} damage. Your HP: {Player.Health}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("You dodged the attack!");
+                        }
+                    }
+                }
+            }
+        }
+
+        private List<Monster> GenerateRandomMonsters()
         {
             var monsters = new List<Monster>();
             int count = random.Next(1, 4);
@@ -113,6 +188,7 @@ namespace DungeonExplorer
             }
             return monsters; // Return the list of monsters
         }
+
         private List<Item> GenerateRandomItems()
         {
             var allItems = new List<Item>();
@@ -125,6 +201,7 @@ namespace DungeonExplorer
 
             return allItems.OrderBy(x => random.Next()).Take(random.Next(1, 4)).ToList();
         }
+
         private void ShowHelp()
         {
             Console.WriteLine("========== HELP MENU ==========");
@@ -134,6 +211,5 @@ namespace DungeonExplorer
             Console.WriteLine("Show Help:    help");
             Console.WriteLine("================================");
         }
-
     }
 }

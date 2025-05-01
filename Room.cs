@@ -18,6 +18,11 @@ namespace DungeonExplorer
 
         public void Enter(Player player)
         {
+            if (player == null)
+            {
+                Console.WriteLine("Error: Player not initialized.");
+                return;
+            }
             Console.WriteLine($"\n=== {Name} ==="); // Message when entering the room  
             Console.WriteLine(Description); // Display the room description  
 

@@ -10,8 +10,7 @@ namespace DungeonExplorer
     {
         static void Main()
         {
-            Game game = new Game();
-            game.Start();
+            Game.Instance.Start();
         }
     }
 }

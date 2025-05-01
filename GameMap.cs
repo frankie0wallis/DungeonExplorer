@@ -10,17 +10,18 @@ namespace DungeonExplorer
     {
         public Room CurrentRoom { get; private set; }
 
-        public void Move(string direction)
+        public bool Move(string direction)
         {
-            direction = direction.ToLower(); // Normalize direction input
-            Room nextRoom;
-            if (CurrentRoom.Exits.TryGetValue(direction, out nextRoom))
+            if (CurrentRoom.Exits.TryGetValue(direction, out Room nextRoom))
             {
-                CurrentRoom = nextRoom; // Move to the next room
-                CurrentRoom.Enter(Game.Instance.Player); // Enter the new room
+                CurrentRoom = nextRoom;
+                return true;
             }
-            else Console.WriteLine("You can't go that way."); // Invalid direction message
-
+            else
+            {
+                Console.WriteLine("You can't go that way.");
+                return false;
+            }
         }
         public void SetStart(Room room) => CurrentRoom = room; // Set the starting room
     }

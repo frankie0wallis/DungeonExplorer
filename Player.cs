@@ -7,6 +7,8 @@ namespace DungeonExplorer
     public class Player : Creature
     {
         public Inventory Inventory { get; private set; } = new Inventory(); // Player's inventory to hold items
+        public int BaseAttackPower { get; set; } // Player's inherent attack strength
+        public double DodgeChance { get; set; }  // Chance to dodge an attack
         public override void Attack(Creature target)
         {
             var weapon = Inventory.GetEquippedWeapon(); // Get the equipped weapon from the inventory
@@ -17,8 +19,15 @@ namespace DungeonExplorer
 
         public override void TakeDamage(int amount)
         {
-            Health -= amount; // Reduce health by the damage taken
-            Console.WriteLine($"{Name} takes {amount} damage! Remaining Health: {Health}"); // Display damage message
+            Random rng = new Random();
+            if (rng.NextDouble() < DodgeChance)
+            {
+                Console.WriteLine($"{Name} dodged the attack!");
+                return;
+            }
+
+            Health -= amount;
+            Console.WriteLine($"{Name} takes {amount} damage! Remaining Health: {Health}");
         }
 
         public void Heal(int amount) // Heal the player by a specified amount
