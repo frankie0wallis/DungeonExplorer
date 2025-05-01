@@ -12,6 +12,6 @@ namespace DungeonExplorer
     }
     public interface ICollectable
     {
-        void UseItem(); // Method to use an item
+        void Use(Player player); // Method to use an item
     }
 }

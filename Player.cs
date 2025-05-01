@@ -10,17 +10,21 @@ namespace DungeonExplorer
         public override void Attack(Creature target)
         {
             var weapon = Inventory.GetEquippedWeapon(); // Get the equipped weapon from the inventory
-            int damage = weapon?.AttackPower ?? 5; // Calculate damage based on the weapon's attack power
-            Console.WriteLine($"You attack {target.Name} for {damage} damage!"); // Display attack message
+            int damage = weapon != null ? weapon.AttackPower : 5; // Calculate damage based on the weapon's attack power
+            Console.WriteLine("You attack" + target.Name + "for" + damage + "damage!"); // Display attack message
             target.TakeDamage(damage); // Apply damage to the target
         }
 
-        public override void TakeDamage(int damage)
+        public override void TakeDamage(int amount)
         {
-            Health -= damage; // Reduce health by the damage taken
-            Console.WriteLine($"{Name} takes {damage} damage! Remaining Health: {Health}"); // Display damage message
+            Health -= amount; // Reduce health by the damage taken
+            Console.WriteLine($"{Name} takes {amount} damage! Remaining Health: {Health}"); // Display damage message
         }
 
-        public void Heal(int amount) => Health += amount; // Heal the player by a specified amount
+        public void Heal(int amount) // Heal the player by a specified amount
+        {
+            Health += amount; // Increase health by the healing amount
+            Console.WriteLine($"{Name} heals for {amount}. Current Health: {Health}"); // Display healing message
+        }
     }
 }
