@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace DungeonExplorer
 {
-    public abstract class Creature
+    public abstract class Creature : IDamageable
     {
         public string Name { get; set; }
-        public string Health { get; set; }
+        public int Health { get; set; }
 
         public abstract void Attack(Creature target); // Abstract method for attacking another creature
 
