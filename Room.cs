@@ -1,67 +1,86 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 
 namespace DungeonExplorer
 {
     public class Room
     {
-        private string description; // Stores the description of the room
-        private static Random random = new Random(); // Random number generator
-        private static List<string> roomDescriptions = new List<string>
-        {
-            ("A dimly lit chamber with torches flickering on the walls"),
-            ("A damp cave with the sound of dripping water echoing through the darkness."),
-            ("A grand hall with broken statues and faded murals of ancient battles."),
-            ("A narrow corridor filled with cobwebs and the distant sound of scurrying rats."),
-            ("A mysterious library filled with ancient tomes and glowing runes on the floor."),
-            ("An empty room with an unsettling lack of danger."),
-        };
-        
-        public Room() // Constructor that assigns a random description to the room
-        {
-            description = roomDescriptions[random.Next(roomDescriptions.Count)];
-        }
+        public string Name { get; set; } // Name of the room  
+        public string Description { get; set; } // Description of the room  
+        public Dictionary<string, Room> Exits { get; } = new Dictionary<string, Room>(); // Exits from the room  
+        public List<Monster> Monsters { get; } = new List<Monster>(); // List of monsters in the room  
+        public List<Item> Items { get; } = new List<Item>(); // List of items in the room   
+        private bool hasBeenExplored = false; // Flag to check if the room has been explored  
 
-        public string GetDescription()
-        {
-            return description;
-        }
+        public void SetExit(string direction, Room room) => Exits[direction.ToLower()] = room; // Set an exit to another room  
 
-        public void Enter(Player player) // Handles events that occur when the player enters the room
+        public void Enter(Player player)
         {
-            int eventRoll = random.Next(1, 10);
-            if (eventRoll > 4) // Most of the time, default to event 1
+            if (player == null)
             {
-                eventRoll = 1;
+                Console.WriteLine("Error: Player not initialized.");
+                return;
             }
-            switch (eventRoll)
-            {
-                case 1:
-                    Console.WriteLine("You Found A Weapon!");
-                    player.PickUpWeapon(Weapon.GetRandomWeapon());
-                    Console.WriteLine("A Monster Attacks You!");
-                    Monster monster = Monster.GetRandomMonster();
-                    Combat.Fight(player, monster);
-                    break;
-                case 2:
-                    Console.WriteLine("You Found A Weapon!");
-                    player.PickUpWeapon(Weapon.GetRandomWeapon());
-                    break;
-                case 3:
-                    Console.WriteLine("You Found Some Armour!");
-                    player.EquipArmour(Armour.GetRandomArmour());
-                    break;
-                case 4:
-                    Console.WriteLine("You Found An Item!.");
-                    player.PickUpItem(Item.GetRandomItem());
-                    break;
+            Console.WriteLine($"\n=== {Name} ==="); // Message when entering the room  
+            Console.WriteLine(Description); // Display the room description  
 
+            if (!hasBeenExplored)
+            {
+                if (Monsters.Count > 0)
+                {
+                    foreach (var monster in Monsters)
+                    {
+                        Console.WriteLine($"A {monster.Name} appears! (Health: {monster.Health}, Attack: {monster.AttackPower})");
+                    }
+                    foreach (var monster in Monsters.ToList())
+                    {
+                        while (monster.Health > 0 && player.Health > 0)
+                        {
+
+                            Console.WriteLine("What do you do? (attack / run)");
+                            var input = Console.ReadLine().ToLower();
+                            if (input == "attack")
+                            {
+                                player.Attack(monster);
+                                if (monster.Health > 0)
+                                    monster.Attack(player);
+                            }
+                            else if (input == "run")
+                            {
+                                Console.WriteLine("You flee from battle!");
+                                return;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid command.");
+                            }
+                        }
+                        if (monster.Health <= 0)
+                        {
+                            Console.WriteLine(monster.Name + " has been defeated!");
+                            Monsters.Remove(monster);
+                        }
+                    }
+                }
+
+                if (Items.Count > 0)
+                {
+                    Console.WriteLine("You find some items:");
+                    foreach (var item in Items)
+                    {
+                        Console.WriteLine("- " + item.GetDescription());
+                        player.Inventory.AddItem(item);
+                    }
+                    hasBeenExplored = true; // Mark the room as explored after finding items
+
+                }
+                else
+                {
+                    Console.WriteLine("You have already explored this room."); // Message if the room has been explored  
+                }
             }
-        }
-        public static Room GetRandomRoom() // Returns a new instance of a randomly generated room
-        {
-            return new Room();
         }
     }
 }

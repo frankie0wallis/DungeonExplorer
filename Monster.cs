@@ -6,34 +6,71 @@ using System.Threading.Tasks;
 
 namespace DungeonExplorer
 {
-    class Monster
+    public abstract class Monster : Creature
     {
-        public string Name { get; set; }
-        public int Health { get; set; }
-        public int Attack { get; set; }
-        private static Random random = new Random(); // Random generator for selecting random monsters
-        private static List<Monster> possibleMonsters = new List<Monster> // List of possible monsters with different health and attack values
+        public int AttackPower { get; protected set; } // Attack power of the monster
+        public override void TakeDamage(int amount)
         {
-            new Monster("Goblin", 10, 5),
-            new Monster("Orc", 20, 10),
-            new Monster("Troll", 30, 15),
-            new Monster("Dragon", 50, 20),
-            new Monster("Beholder", 40, 25),
-            new Monster("Lich", 60, 30),
-            new Monster("Balrog", 70, 35),
-            new Monster("Chimera", 80, 40),
-            new Monster("Hydra", 90, 45),
-            new Monster("Kraken", 100, 50),
-        };
-        public Monster(string name, int health, int attack) // Constructor to initialize a monster with a name, health, and attack power
-        {
-            Name = name;
-            Health = health;
-            Attack = attack;
+            Health -= amount; // Reduce health by the damage taken
+            Console.WriteLine(Name + " takes " + amount + " damage. Remaining HP: " + Health); // Display damage message
         }
-        public static Monster GetRandomMonster() // Returns a random monster from the list of possible monsters
+    }
+    public class Goblin : Monster
+    {
+        public Goblin()
         {
-            return possibleMonsters[random.Next(possibleMonsters.Count)];
+            Name = "Goblin"; // Set the name of the monster
+            Health = 20; // Set the initial health of the monster
+            AttackPower = 5; // Set the attack power of the monster
+        }
+        public override void Attack(Creature target)
+        {
+            Console.WriteLine("The goblin snarls and attacks!"); // Display attack message
+            target.TakeDamage(AttackPower); // Apply damage to the target
+        }
+    }
+    public class Orc : Monster
+    {
+        public Orc()
+        {
+            Name = "Orc"; // Set the name of the monster
+            Health = 30; // Set the initial health of the monster
+            AttackPower = 8; // Set the attack power of the monster
+        }
+        public override void Attack(Creature target)
+        {
+            Console.WriteLine("The orc roars and charges!"); // Display attack message
+            target.TakeDamage(AttackPower); // Apply damage to the target
+        }
+    }
+    public class Dragon : Monster
+    {
+        public Dragon()
+        {
+            Name = "Dragon"; // Set the name of the monster
+            Health = 50; // Set the initial health of the monster
+            AttackPower = 15; // Set the attack power of the monster
+        }
+        public override void Attack(Creature target)
+        {
+            Console.WriteLine("The dragon breathes fire!"); // Display attack message
+            target.TakeDamage(AttackPower); // Apply damage to the target
+        }
+    }
+    public class Mage : Monster
+    {
+        public Mage()
+        {
+            Name = "Mage";
+            Health = 30;
+            AttackPower = 10;
+        }
+
+        public override void Attack(Creature target)
+        {
+            Console.WriteLine("The mage casts a fireball!");
+            target.TakeDamage(AttackPower + 5); // Bonus magic damage
         }
     }
 }
+
