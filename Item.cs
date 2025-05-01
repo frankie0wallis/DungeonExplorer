@@ -6,30 +6,29 @@ using System.Threading.Tasks;
 
 namespace DungeonExplorer
 {
-    public class Item
+    public abstract class Item : ICollectable
     {
-        public string Name { get; set; }
-        public int HealingAmount { get; set; }
-        private static Random random = new Random(); // Random generator for selecting random items
-
-        private static List<Item> possibleitems = new List<Item>
-        {
-            new Item("Small Health Potion", 10),
-            new Item("Medium Health Potion", 20),
-            new Item("Large Health Potion", 30),
-            new Item("Legendary Health Potion", 50),
-            new Item("Revive Scroll", 100),
-        };
-
-        public Item(string name, int healingamount) // Constructor to initialize an item with a name and healing amount
-        {
-            Name = name;
-            HealingAmount = healingamount;
-        }
-
-        public static Item GetRandomItem()// Returns a random item from the list of possible items
-        {
-            return possibleitems[random.Next(possibleitems.Count)];
-        }
+        public string Name { get; set; } // Name of the item
+        public abstract void use(Player player); // Abstract method to use the item
+        public abstract string GetDescription(); // Abstract method to get the item's description
     }
-}
+    public class Potion : Item
+    {
+        public int HealingAmount { get; set; } // Amount of health the potion restores
+        public override void use(Player player)
+        {
+            player.Heal(HealingAmount); // Restore health to the player
+            Console.WriteLine($"{Name} heals for {HealingAmount}"); // Message after using the potion
+        }
+        public override string GetDescription() => $"{Name}: Restores {HealingAmount} health."; // Description of the potion
+    }
+    public class Weapon : Item
+    {
+        public int AttackPower { get; set; } // Attack power of the weapon
+        public override void use(Player player)
+        {
+            player.Inventory.EquipWeapon(this); // Equip the weapon to the player
+            Console.WriteLine($"{Name} equipped with {AttackPower} power."); // Message after equipping the weapon
+        }
+        public override string GetDescription() => $"{Name}: Attack Power {AttackPower}."; // Description of the weapon
+    }
